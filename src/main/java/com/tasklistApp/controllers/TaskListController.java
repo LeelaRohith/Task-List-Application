@@ -49,4 +49,21 @@ public class TaskListController
 	    mv.setViewName("homepage.jsp");
 	    return mv;
 	}
+	@PostMapping("/editTask")
+	public ModelAndView editTask(@RequestParam("taskId") int taskId, @RequestParam("editedTask") String editedTask) {
+	    ModelAndView mv = new ModelAndView();
+
+	    // Find the task with the specified ID
+	    for (Task task : tasks) {
+	        if (task.getId() == taskId) {
+	            // Update the task name
+	            task.setName(editedTask);
+	            break;
+	        }
+	    }
+
+	    mv.addObject("tasks", tasks);
+	    mv.setViewName("homepage.jsp");
+	    return mv;
+	}
 }
