@@ -42,15 +42,24 @@
         <% for (Task task : tasks) { %>
 
             <tr>
-                <td style="width:2px"><%= task.getId() %></td>
-                <td>
-                    <span class="task-name"><%= task.getName() %></span>
-                    <span class="action-buttons">
-                        <button class="edit-btn">Edit</button>
-                        <a href="deleteTask?taskId=<%= task.getId() %>" ><button class="delete-btn">Delete</button></a>
-                    </span>
-                </td>
-            </tr>
+    <td style="width:2px"><%= task.getId() %></td>
+    <td>
+        <span class="task-name" data-task-id="<%= task.getId() %>"><%= task.getName() %></span>
+        <span class="edit-mode" data-task-id="<%= task.getId() %>" style="display: none;">
+            <form action="editTask" method="post" style="display:inline">
+                <input type="hidden" name="taskId" value="<%= task.getId() %>">
+                <input type="text" name="editedTask" value="<%= task.getName() %>">
+                <button type="submit">Save</button>
+                <button type="button" onclick="cancelEdit('<%= task.getId() %>')">Cancel</button>
+            </form>
+        </span>
+        <span class="action-buttons">
+            <button class="edit-btn" onclick="toggleEdit('<%= task.getId() %>')">Edit</button>
+            <a href="deleteTask?taskId=<%= task.getId() %>"><button class="delete-btn">Delete</button></a>
+        </span>
+    </td>
+</tr>
+            
 <%
         } // end for loop
     } // end if check
@@ -59,6 +68,27 @@
     </table>
 </div>
 </div>
+<script>
+function toggleEdit(taskId) {
+    var taskNameSpan = document.querySelector('.task-name[data-task-id="' + taskId + '"]');
+    var editModeSpan = document.querySelector('.edit-mode[data-task-id="' + taskId + '"]');
+
+    if (taskNameSpan && editModeSpan) {
+        taskNameSpan.style.display = 'none';
+        editModeSpan.style.display = 'inline';
+    }
+    
+}
+function cancelEdit(taskId) {
+    var taskNameSpan = document.querySelector('.task-name[data-task-id="' + taskId + '"]');
+    var editModeSpan = document.querySelector('.edit-mode[data-task-id="' + taskId + '"]');
+
+    if (taskNameSpan && editModeSpan) {
+        taskNameSpan.style.display = 'inline';
+        editModeSpan.style.display = 'none';
+    }
+}
+</script>
 
 </body>
 </html>
