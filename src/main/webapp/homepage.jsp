@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.tasklistApp.data.Task" %>
     
 <!DOCTYPE html>
 <html>
@@ -24,7 +26,38 @@
  </form>
 
 
+<div class="task-list">
+    <table>
+         <% 
+    ArrayList<Task> tasks = (ArrayList<Task>) request.getAttribute("tasks");
+    if (tasks != null  && !tasks.isEmpty()) {%>
+    <thead>
+        <tr>
+        <th style="width:2px">S.No</th>
+        <th>Tasks</th>
+        </tr>
+        
+        </thead>
+        <tbody>
+        <% for (Task task : tasks) { %>
 
+            <tr>
+                <td style="width:2px"><%= task.getId() %></td>
+                <td>
+                    <span class="task-name"><%= task.getName() %></span>
+                    <span class="action-buttons">
+                        <button class="edit-btn">Edit</button>
+                        <a href="deleteTask?taskId=<%= task.getId() %>" ><button class="delete-btn">Delete</button></a>
+                    </span>
+                </td>
+            </tr>
+<%
+        } // end for loop
+    } // end if check
+%>
+        </tbody>
+    </table>
+</div>
 </div>
 
 </body>
