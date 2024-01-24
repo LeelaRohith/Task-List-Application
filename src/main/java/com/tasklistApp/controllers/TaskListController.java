@@ -15,8 +15,6 @@ import com.tasklistApp.data.Task;
 public class TaskListController
 {
 	ArrayList<Task> tasks= new ArrayList<>();
-	
-	
 	@RequestMapping("/")
 	public ModelAndView homepage()
 	{
@@ -24,8 +22,6 @@ public class TaskListController
 		mv.addObject("tasks",tasks);
 		mv.setViewName("homepage.jsp");
 		return mv;
-		
-		
 	}
 	@PostMapping("/addTask")
 	public ModelAndView addTask(@RequestParam("newTaskInput") String name)
@@ -37,21 +33,20 @@ public class TaskListController
 		tasks.add(t);
 		System.out.println(tasks.get(0).getName());
 		mv.addObject("tasks",tasks);
-		mv.setViewName("tasklist.jsp");
+		mv.setViewName("homepage.jsp");
 		return mv;
 	}
 	@GetMapping("/deleteTask")
 	public ModelAndView deleteTask(@RequestParam("taskId") int taskId) {
 	    ModelAndView mv = new ModelAndView();
-	    
 	    // Remove the task with the specified ID
 	    tasks.removeIf(task -> task.getId() == taskId);
-	    
 	    mv.addObject("tasks", tasks);
-	    if (tasks.isEmpty()) {
+	    if (tasks.isEmpty()) 
+	    {
 	        return new ModelAndView("redirect:/");
 	    }
-	    mv.setViewName("tasklist.jsp");
+	    mv.setViewName("homepage.jsp");
 	    return mv;
 	}
 }
